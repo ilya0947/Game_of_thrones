@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Game_of_trons/static/css/main.93a0497a.css",
+    "main.js": "/Game_of_trons/static/js/main.3f3ec451.js",
+    "index.html": "/Game_of_trons/index.html",
+    "main.93a0497a.css.map": "/Game_of_trons/static/css/main.93a0497a.css.map",
+    "main.3f3ec451.js.map": "/Game_of_trons/static/js/main.3f3ec451.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.93a0497a.css",
+    "static/js/main.3f3ec451.js"
+  ]
+}
