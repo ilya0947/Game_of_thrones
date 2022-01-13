@@ -2,7 +2,7 @@
   "name": "game_of_trons",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ilya0947.github.io/Game_of_trons",
+  "homepage": "https://ilya0947.github.io/Game_of_thrones",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
