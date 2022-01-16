@@ -1,66 +1,72 @@
-import React, {useEffect, useState} from 'react';
+import React, {Component} from 'react';
 import ErrorMessage from '../errorMesage/errorMessage';
 import getResours from '../../services/get';
 import Spiner from '../spiner/spiner';
 import PropTypes from 'prop-types';
 import './randomChar.scss';
 
-export default function RandomChar({interval}) {
+export default class RandomChar extends Component {
 
-    const getRes = new getResours();
+    getRes = new getResours();
 
-    const [state, setState] = useState({
+    state = {
         char: {},
         loading: true,
         error: false
-    })
-
+    }
 
     // static defaultProps = {   //Синтаксис установки пропсов по умолчанию es9
     //     interval: 15000
     // }
-    useEffect(() => {
-        let tId;
-        updateChar();
-        // tId = setInterval(this.updateChar, 1600);
-        const updateInterval = () => {
-            tId = setTimeout(() => {
-                updateChar()
-                updateInterval();
-            }, interval);
-        }
-        updateInterval();
 
-        return () => clearInterval(tId);
-    //eslint-disable-next-line 
-    }, []);
-  
-    const err = (err) => {
-        console.log(err)
-        setState({...state, loading: false, error: true})
+    componentDidMount() {
+        this.updateChar();
+        // this.tId = setInterval(this.updateChar, 1600);
+        this.i = 0;
+        const tId = () => {
+            // this.i++;
+            // console.log('interval: '+ this.i);
+            this.tId = setTimeout(() => {
+                this.updateChar()
+                tId();
+            }, this.props.interval);
+        }
+        tId();
     }
 
-    const updateChar = () => {
-        setState({...state, loading: true});
+    componentWillUnmount() {
+        clearInterval(this.tId);
+    }
+
+    error = (err) => {
+        // console.log(err)
+        this.setState({loading: false, error: true})
+    }
+
+    updateChar = () => {
+        this.setState({loading: true});
         
-        if(state.error) setState({...state, error: false});
+        if(this.state.error) this.setState({error: false});
 
         const id = Math.floor(Math.random()*140 + 25);
         // console.log(id)
-        getRes.getCharacter(id)
-            .then(char => setState(data => ({...data, char, loading:false})))
-            .catch(err);
+        this.getRes.getCharacter(id)
+            .then(char => this.setState({char, loading:false}))
+            .catch(this.error);
     }
 
-    const {char, loading, error} = state;
+    render() {
 
-    const content = loading ? <Spiner/> : error ? <ErrorMessage/> : <View char={char}/>
+        const {char, loading, error} = this.state;
 
-    return (
-        <div className="random-block rounded">
-            {content}
-        </div>
-    );
+        const content = loading ? <Spiner/> : error ? <ErrorMessage/> : <View char={char}/>
+
+        return (
+            <div className="random-block rounded">
+               {content}
+            </div>
+        );
+    }
 }
 
 RandomChar.defaultProps = {
@@ -68,7 +74,7 @@ RandomChar.defaultProps = {
 }
 
 RandomChar.propTypes = {
-    interval: PropTypes.number/* (props, propName, componentName) => { // Вариант без библиотеки
+    interval: PropTypes/* (props, propName, componentName) => { // Вариант без библиотеки
         const value = props[propName];
 
         if (typeof value === 'number' && !isNaN(value)) {

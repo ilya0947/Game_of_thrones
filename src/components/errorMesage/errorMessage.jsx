@@ -6,7 +6,7 @@ export default function ErrorMessage() {
     return (
         <>
             <img src={img} alt="error" />
-            <span>error</span>
+            <span className='select-error'>Error</span>
         </>
     )
 }

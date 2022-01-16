@@ -2,6 +2,7 @@
 export default class getResours{
     constructor() {
         this.API_URL = 'https://anapioficeandfire.com/api';
+        this.noData = 'No data :(';
 
     }
     
@@ -9,7 +10,8 @@ export default class getResours{
     async get(url) {
         
         const res = await fetch(url);
-    
+        // console.log(res)
+        
         if (!res.ok) {
             throw new Error(`Status: ${res.status}`)
         }
@@ -17,43 +19,65 @@ export default class getResours{
         return await res.json();
     }
 
-    async getAllCharacters(page = 5) {
+    getAllCharacters = async (page = 5) => {
         const res = await this.get(`${this.API_URL}/characters?page=${page}&pageSize=10`);
-        return res.map(this._transform(res));
+        // console.log(res)
+        return res/* .map(this._transform(res)) */;
     }
-
-    async getCharacter(id) {
+    
+    getCharacter = async (id) => {
         const res = await this.get(`${this.API_URL}/characters/${id}`);
-        return this._transform(res);
+        return this._transformChar(res);
     }
-
-    getAllHouses() {
-        const res = this.get(`${this.API_URL}/houses/`);
+    
+    getAllHouses = async () => {
+        const res = await this.get(`${this.API_URL}/houses/`);
+        // console.log(res)
         return res;
     }
-
-    getHouses(id) {
-        const res = this.get(`${this.API_URL}/houses/${id}`);
+    
+    getHouses = async (id) => {
+        const res = await this.get(`${this.API_URL}/houses/${id}`);
+        // console.log(res)
+        return this._transformHouse(res);;
+    }
+    
+    getAllBooks = async () => {
+        const res = await this.get(`${this.API_URL}/books`);
         return res;
     }
-
-    getAllBooks() {
-        const res = this.get(`${this.API_URL}/books`);
-        return res;
+    
+    getBooks = async (id) => {
+        const res = await this.get(`${this.API_URL}/books/${id}`);
+        // console.log(res)
+        return this._transformBook(res);;
     }
 
-    getBooks(id) {
-        const res = this.get(`${this.API_URL}/books/${id}`);
-        return res;
-    }
-
-    _transform({name,gender,born,died,culture}) {
+    _transformChar({name,gender,born,died,culture}) {
         return {
-            name: name || 'no data',
-            gender: gender || 'no data',
-            born: born || 'no data',
-            died: died || 'no data',
-            culture: culture || 'no data'
+            name: name || this.noData,
+            gender: gender || this.noData,
+            born: born || this.noData,
+            died: died || this.noData,
+            culture: culture || this.noData
+        }
+    }
+    _transformHouse({name,currentLord,region,founded,founder}) {
+        return {
+            name: name || this.noData,
+            currentLord: currentLord || this.noData,
+            region: region || this.noData,
+            founded: founded || this.noData,
+            founder: founder || this.noData
+        }
+    }
+    _transformBook({name,authors,country,publisher,released}) {
+        return {
+            name: name || this.noData,
+            authors: authors || this.noData,
+            country: country || this.noData,
+            publisher: publisher || this.noData,
+            released: released || this.noData
         }
     }
 }

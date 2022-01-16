@@ -1,4 +1,5 @@
 import withData from '../../HOC/withData';
+import getResours from '../../services/get';
 import PropTypes from 'prop-types';
 import './itemList.scss';
 function ItemList(props) {
@@ -32,7 +33,7 @@ function ItemList(props) {
 
 ItemList.defaultProps = {
     onItemSelected: () => alert("Данные для перехода на страницу не были переданы"),
-    renderItem: ({name}) => name,
+    renderItem: item => item.name,
     data: {}
 }
 
@@ -40,5 +41,6 @@ ItemList.propTypes = {
     onItemSelected: PropTypes.func
 }
 
+const {getAllBooks} = new getResours();
 
-export default withData(ItemList);
+export default withData(ItemList, getAllBooks);
