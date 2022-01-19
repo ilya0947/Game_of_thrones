@@ -34,7 +34,7 @@ export default class App extends React.Component{
 
         return (
             <> 
-                <Router>    
+                <Router basename='/Game_of_thrones'>    
                     <Container>
                         <Header />
                     </Container>

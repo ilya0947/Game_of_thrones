@@ -8,10 +8,10 @@ export default class Test extends React.Component{
     }
 }
 
-const res = 'test';
-
-console.log(res.split('')[0]);
-
-
-
-
+const res = (a) => {
+    console.log(a, 'b')
+    return () => {
+        console.log(a, 'c')
+    }
+}
+res()();
